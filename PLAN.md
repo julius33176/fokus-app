@@ -21,7 +21,7 @@ Dieses Dokument ist die verbindliche Grundlage. Abweichungen nur nach Rücksprac
 
 | Paket | Art | Zweck | Größe (gzip, ca.) | Begründung |
 |---|---|---|---|---|
-| react, react-dom | Laufzeit | UI | ~45 kB | Vorgabe |
+| react, react-dom | Laufzeit | UI | ~60 kB (React 19) | Vorgabe |
 | vite, @vitejs/plugin-react, typescript | Dev | Build | 0 (nur Build) | Vorgabe |
 | idb | Laufzeit | IndexedDB mit Promises | ~1,2 kB | spart fehleranfälligen Boilerplate-Code, winzig |
 | vite-plugin-pwa (Workbox) | Dev | Service Worker, Precache, Manifest | 0 im App-Bundle, SW ~15 kB | erprobtes Offline-Caching und Update-Ablauf statt Eigenbau |
@@ -32,7 +32,7 @@ Bewusst **ohne** Router-Bibliothek (eigener Mini-Router, ~50 Zeilen), **ohne** C
 (CSS-Transitions, Web Animations API, kleiner eigener Feder-Löser). Falls in Phase 1/2 eine
 Animations-Bibliothek nötig wird (z. B. `motion`), frage ich vorher.
 
-Budget: erstes JS-Bundle unter 100 kB gzip.
+Budget: erstes JS-Bundle unter 120 kB gzip (Phase 0: 71 kB, fast nur React).
 
 ### 2.2 Hosting und Deploy
 

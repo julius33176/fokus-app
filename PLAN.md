@@ -101,7 +101,15 @@ Optional hält die Wake-Lock-API (ab iOS 18.4 in Web-Apps) den Bildschirm währe
 `index.html` zurück. Bei neuer Version erscheint ein unaufdringlicher Hinweis „Neue Version – neu laden“.
 `navigator.storage.persist()` wird beim ersten Start angefragt.
 
-### 2.7 Design-Grundlage (Details in Phase 1)
+### 2.7 Design-Grundlage
+
+**Entschieden (27.11.): Richtung „Aurora“**, Details und Tokens in [DESIGN.md](DESIGN.md).
+Zusatzwunsch von Julius (freigegeben): Auf dem Startbildschirm folgt die Farbstimmung der **Tageszeit**
+(Dämmerung, Vormittag, Nachmittag, Abend, Nacht) und oben steht eine kurze passende Begrüßung
+(„Bereit für eine Nachtsession, Julius?“). Während Session bzw. Morgen-/Abendmodus gelten die Modus-Paletten.
+Wird in Phase 2 mit dem Startbildschirm gebaut.
+
+Ursprüngliche Vorgaben:
 
 - CSS-Variablen als Tokens (Farben, Abstände, Radien, Typo-Skala, Kurven, Dauern).
 - Hintergrund: großflächiger, langsam animierter Verlauf, je Modus eigene Palette
@@ -385,7 +393,8 @@ Seite `https://julius33176.github.io/fokus-app/check/`. Ablauf und Testkurzbefeh
 **Phase 1 – Design:** 3 Designrichtungen (Startscreen + Timer) als umschaltbare Vorschau, statische Beispieldaten.
 Skills: impeccable, apple-design, (prototype/frontend-design nicht verfügbar).
 
-**Phase 2 – Kern:** DB-Schicht + Migrationen → Fächer/Aufgaben → Timer-Automat (+ Tests) →
+**Phase 2 – Kern:** DB-Schicht + Migrationen → Domain-Logik (+ Tests) → App-Gerüst Aurora mit
+Tageszeit-Himmel und Begrüßung → Fächer/Aufgaben → Timer-Automat (+ Tests) →
 Timer-Bildschirm mit Ring, Pomodoro-Presets, Pausen, Ablenkungs-Knopf → Bewertung nach Session →
 Statistik-Grundgerüst → Export/Import → Service Worker/Offline. Skills: mobile-native, animate, gestures.
 

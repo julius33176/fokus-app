@@ -303,6 +303,30 @@ Nachteil: Safari-Leisten sichtbar, `x-success` kann neue Tabs öffnen. Die App f
 (Offline, Export usw.). Variante B2 (Standalone-App + Gate in Safari mit Datenabgleich über die
 Zwischenablage) halte ich für zu fehleranfällig und würde ich nur auf deinen Wunsch bauen.
 
+### 4.6 Ergebnis iOS-Check (27.11., iPhone mit iOS 26.6.1)
+
+| Test | Ergebnis |
+|---|---|
+| Speicher Safari ↔ Web-App | **getrennt** (verschiedene Kennungen) |
+| `webapp://…` aus Kurzbefehl, Web-App im Hintergrund (warm) | Web-App kommt nach vorne, **Adresse wird ignoriert** (kein Laden, Seite bleibt wie sie war) |
+| `webapp://…` aus Kurzbefehl, Web-App beendet (kalt) | Web-App startet, aber **immer auf der Startseite** (`start_url`), Pfad und `?app=` gehen verloren |
+| `shortcuts://` aus der Web-App | funktioniert **ohne Rückfrage**, Text-Eingabe (`input=text`) kommt im Kurzbefehl an |
+| `x-success=webapp://…` | springt **zurück in die Web-App**, aber ebenfalls ohne Adresse |
+
+**Folgerung:** Kurzbefehle können die Web-App öffnen und die Web-App kann Kurzbefehle mit Daten starten.
+Der umgekehrte Weg (Daten **in** die Web-App) existiert nicht: Die Web-App erfährt nicht, *dass* sie vom
+Gate geöffnet wurde und *welche* App gemeint war. Plan A in der ursprünglichen Form geht also nicht.
+Entscheidung durch Julius zwischen **A2** und **B** steht aus:
+
+- **A2 „Web-App + Wohin-Abfrage“ (Empfehlung):** Echte Web-App. Jedes Mal, wenn Fokus nach vorne kommt
+  (nach ≥ 3 s im Hintergrund), erscheint ein Blatt „Wohin willst du?“ mit großen Knöpfen
+  *Instagram · TikTok · YouTube* und *Weiter in Fokus*. Ein Tipp auf die App startet das Gate für genau diese
+  App. Kosten: ein zusätzlicher Tipp, auch wenn du Fokus selbst öffnest. Nach einem eigenen
+  Kurzbefehl-Aufruf (Fokus an, Timer …) wird das Blatt automatisch unterdrückt. Betrug („falsche App wählen“)
+  bringt nichts, weil der Durchlass nur für die gewählte App gilt und genau diese öffnet.
+- **B „Safari-Modus“:** wie oben beschrieben, Gate erkennt die App automatisch über die Adresse, kein
+  Zusatz-Tipp. Kosten: Safari-Leisten überall, jeder Gate-Aufruf öffnet einen neuen Safari-Tab.
+
 ---
 
 ## 5. Technische Grenzen von iOS-PWAs (ehrlich)
@@ -364,15 +388,22 @@ README. Skills: break-ui, emil-design-eng, improve-animations (review-animations
 
 ---
 
-## 8. Offene Fragen an Julius
+## 8. Entscheidungen und offene Fragen
 
-1. **GitHub Pages:** Bitte die zwei Einstellungen aus 2.2 setzen (oder sag mir, dass ich nur über `main` deployen soll).
-2. **iOS-Version:** Welche iOS-Version hast du? (`webapp://` ist frühestens ab iOS 26 zu erwarten.)
-3. **iOS-Check:** Ergebnisse von `/check` (entscheidet Plan A oder B).
-4. **Überschreiben „max. 1× pro Tag“:** Mein Vorschlag: **insgesamt** 1× pro Tag über alle Apps (strenger). Oder 1× pro App?
-5. **Tagesgrenze:** Mein Vorschlag: Tag beginnt um **04:00** (Lernen bis 2 Uhr zählt zum Vortag). Oder Mitternacht?
-6. **Streak:** Mein Vorschlag: Ein Tag zählt, wenn mindestens **eine abgeschlossene Fokus-Session ≥ 10 min** dabei ist.
-7. **Start-Apps fürs Gate:** Instagram, TikTok, YouTube – weitere?
+Beantwortet (27.11.):
+1. GitHub Pages: aktiv, Source GitHub Actions, Environment `github-pages` ohne Branch-Beschränkung. ✓
+2. iOS-Version: **26.6.1**. ✓
+3. iOS-Check: siehe 4.6. ✓
+4. Tagesgrenze: **04:00**. ✓
+5. Gate-Apps: **Instagram, TikTok, YouTube**. ✓
+
+Mit Annahme (Julius kann widersprechen):
+6. Überschreiben: Antwort offen gelassen → **insgesamt 1× pro Tag über alle Apps** (strengere Variante).
+7. Streak: „30 min“ → Ein Tag zählt bei **mindestens 30 min Fokuszeit am Tag (Summe)**, damit auch
+   zwei 25-min-Pomodoros zählen.
+
+Offen:
+8. **Anbindung des Gates: A2 (Web-App + Wohin-Abfrage) oder B (Safari-Modus)?** Siehe 4.6.
 
 ---
 

@@ -21,16 +21,18 @@
   `x-success` holen die Web-App nur nach vorne (oder öffnen die Startseite), ohne die übergebene Adresse zu laden.
 - Reaktion: Seitenprotokoll (Laden/Vordergrund/Adresse) in `/check` eingebaut, Nachtest warm/kalt angefragt.
 
+## iOS-Check, Ergebnis 2 (27.11., Nachtest)
+- warm: `webapp://` holt Web-App nach vorne, Adresse ignoriert. kalt: Start immer auf `/`.
+- `shortcuts://` ohne Rückfrage, Eingabe kommt an. `x-success=webapp://` springt zurück (ohne Adresse).
+- Speicher Safari/Web-App getrennt. iOS 26.6.1.
+- Folgerung und Optionen A2/B: PLAN.md 4.6. Entscheidung von Julius steht aus.
+
 ## Nächster konkreter Schritt
-- Warten auf Julius: Nachtest im iOS-Check (warm/kalt), offene Fragen beantworten (PLAN.md, Abschnitt 8).
+- Warten auf Julius: Entscheidung A2 oder B (PLAN.md 4.6/8), Annahmen zu Überschreiben und Streak bestätigen.
 - Danach Phase 1: 3 Designrichtungen für Startscreen und Timer als umschaltbare Vorschau.
 
-## Aufgaben für Julius (Stand 27.11. nachts)
-1. Web-App wegwischen, neu öffnen, „Zum iOS-Check“ (neue Version mit blauem Kasten „Nachtest“).
-2. Nachtest laut blauem Kasten: Protokoll leeren → Test A warm → Test A kalt → B zurück per webapp:// → Ergebnis kopieren.
-3. Antworten: iOS-Version, Speicher-Kennungen verschieden?, Rückfrage bei Test B?, Überschreiben global/pro App,
-   Tagesgrenze, Streak, Gate-Apps.
-Erinnerung per Push am 27.11. um 09:00 ist geplant.
+## Aufgaben für Julius
+- Nachtest erledigt (27.11. vormittags). Offen: Entscheidung A2 oder B, Annahmen bestätigen.
 
 ## Offene Fragen an Julius
 Siehe PLAN.md, Abschnitt 8 (Pages-Einstellungen, iOS-Version, iOS-Check, Überschreiben global/pro App,

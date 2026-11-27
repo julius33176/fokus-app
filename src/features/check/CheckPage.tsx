@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { routeUrl } from '../../router/router.ts'
-import { clearEvents, readEvents, type PageEvent } from './eventlog.ts'
+import { clearEvents, readEvents, startEventLog, type PageEvent } from './eventlog.ts'
 import './check.css'
 
 // iOS-Check: prüft die Plattform-Annahmen aus PLAN.md, Abschnitt 4.5/6.
@@ -79,6 +79,9 @@ export function CheckPage() {
   const [note, setNote] = useState(() => readJson<string>(NOTE_KEY, ''))
   const [copied, setCopied] = useState<'idle' | 'ok' | 'manual'>('idle')
   const [events, setEvents] = useState<PageEvent[]>(readEvents)
+
+  // Protokoll nur auf dieser Seite (der iOS-Check ist abgeschlossen, siehe PLAN.md 4.6)
+  useEffect(() => startEventLog(), [])
 
   useEffect(() => {
     const refresh = () => setEvents(readEvents())

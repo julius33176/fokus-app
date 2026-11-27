@@ -43,19 +43,27 @@ function push(type: string, extra?: string) {
   window.dispatchEvent(new Event('fokus-check-events'))
 }
 
-export function startEventLog() {
+export function startEventLog(): () => void {
   const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined
   const standalone =
     window.matchMedia('(display-mode: standalone)').matches ||
     (navigator as Navigator & { standalone?: boolean }).standalone === true
   push('geladen', `${nav?.type ?? '?'} · ${standalone ? 'Web-App' : 'Safari'}`)
 
-  window.addEventListener('pageshow', (e) => {
+  const onPageShow = (e: PageTransitionEvent) => {
     if (e.persisted) push('aus Zwischenspeicher')
-  })
-  document.addEventListener('visibilitychange', () => {
-    push(document.visibilityState === 'visible' ? 'Vordergrund' : 'Hintergrund')
-  })
-  window.addEventListener('hashchange', () => push('hash geändert'))
-  window.addEventListener('popstate', () => push('popstate'))
+  }
+  const onVisibility = () => push(document.visibilityState === 'visible' ? 'Vordergrund' : 'Hintergrund')
+  const onHash = () => push('hash geändert')
+  const onPop = () => push('popstate')
+  window.addEventListener('pageshow', onPageShow)
+  document.addEventListener('visibilitychange', onVisibility)
+  window.addEventListener('hashchange', onHash)
+  window.addEventListener('popstate', onPop)
+  return () => {
+    window.removeEventListener('pageshow', onPageShow)
+    document.removeEventListener('visibilitychange', onVisibility)
+    window.removeEventListener('hashchange', onHash)
+    window.removeEventListener('popstate', onPop)
+  }
 }

@@ -1,0 +1,293 @@
+/* ---------------------------------------------------------------
+   Modus-Paletten (für alle drei Designs gleich, jedes nutzt sie anders)
+   Fokus = kühl, Morgen = warm, Abend = gedimmt.
+   Registrierte Properties, damit der Moduswechsel weich überblendet.
+---------------------------------------------------------------- */
+@property --m-bg {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #070b16;
+}
+@property --m-c1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #1a3a8a;
+}
+@property --m-c2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #0e6b8c;
+}
+@property --m-c3 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #3b2a8c;
+}
+@property --m-accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #8fd3ff;
+}
+@property --m-accent-2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #6e8bff;
+}
+@property --m-ink {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #f2f5fb;
+}
+
+.pv {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--m-bg);
+  color: var(--m-ink);
+  transition:
+    --m-bg 1.2s var(--ease-out),
+    --m-c1 1.2s var(--ease-out),
+    --m-c2 1.2s var(--ease-out),
+    --m-c3 1.2s var(--ease-out),
+    --m-accent 1.2s var(--ease-out),
+    --m-accent-2 1.2s var(--ease-out),
+    --m-ink 1.2s var(--ease-out);
+}
+
+.pv[data-mode='fokus'] {
+  --m-bg: #060a15;
+  --m-c1: #1b3c94;
+  --m-c2: #0b6a8e;
+  --m-c3: #3a2b8f;
+  --m-accent: #8fd3ff;
+  --m-accent-2: #7088ff;
+  --m-ink: #f2f5fb;
+}
+
+.pv[data-mode='morgen'] {
+  --m-bg: #120a09;
+  --m-c1: #93401c;
+  --m-c2: #c06a26;
+  --m-c3: #74233f;
+  --m-accent: #ffc684;
+  --m-accent-2: #ff8f6b;
+  --m-ink: #fbf4ee;
+}
+
+.pv[data-mode='abend'] {
+  --m-bg: #08070b;
+  --m-c1: #2c1f3b;
+  --m-c2: #3b2520;
+  --m-c3: #161a2c;
+  --m-accent: #d9b590;
+  --m-accent-2: #a88bc8;
+  --m-ink: #e4ddd6;
+}
+
+/* Bildschirmwechsel Start ↔ Timer: kurz, von leicht kleiner einblenden */
+.pv-enter {
+  animation: pv-enter 420ms var(--ease-out) both;
+}
+
+@keyframes pv-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-enter {
+    animation: pv-fade 200ms ease both;
+  }
+  @keyframes pv-fade {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------
+   Vorschau-Steuerung (gehört nicht zum Design)
+---------------------------------------------------------------- */
+.pv-panel {
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  top: calc(var(--safe-top) + 6px);
+  transform: translateX(-50%);
+  width: min(100% - 24px, 420px);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.pv-panel > * {
+  pointer-events: auto;
+}
+
+.pv-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(30, 30, 34, 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 120ms ease-out;
+}
+
+.pv-pill:active {
+  transform: scale(0.96);
+}
+
+.pv-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffd60a;
+}
+
+.pv-panel-body {
+  width: 100%;
+  padding: 14px;
+  border-radius: 22px;
+  background: rgba(28, 28, 32, 0.88);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  backdrop-filter: blur(30px) saturate(160%);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform-origin: 50% 0;
+  animation: pv-panel-in 320ms var(--ease-out) both;
+}
+
+@keyframes pv-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+}
+
+.pv-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.pv-close {
+  min-height: 36px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: #ffd60a;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.pv-seg-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pv-seg-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.pv-seg {
+  display: flex;
+  padding: 2px;
+  border-radius: 10px;
+  background: rgba(118, 118, 128, 0.24);
+}
+
+.pv-seg button {
+  flex: 1;
+  min-height: 34px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 160ms ease-out;
+}
+
+.pv-seg button.is-active {
+  background: rgba(99, 99, 102, 0.9);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.pv-idea {
+  margin: -4px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.pv-switch {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  font-size: 15px;
+}
+
+.pv-switch input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 51px;
+  height: 31px;
+  margin: 0;
+  border-radius: 999px;
+  background: rgba(120, 120, 128, 0.32);
+  transition: background-color 200ms ease-out;
+}
+
+.pv-switch input::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 260ms var(--ease-out);
+}
+
+.pv-switch input:checked {
+  background: #34c759;
+}
+
+.pv-switch input:checked::after {
+  transform: translateX(20px);
+}
+
+.pv-link {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  padding: 6px 0 2px;
+}

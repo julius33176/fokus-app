@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Aktuelle Phase:** 1 – Design (gestartet 27.11.)
+**Aktuelle Phase:** 1 – Design (fertig, wartet auf Julius' Wahl)
 **Stand:** PLAN.md, Grundgerüst, iOS-Check-Seite und Deploy-Workflow sind gepusht. Pages ist live.
 
 ## Erledigt
@@ -27,11 +27,22 @@
 - Speicher Safari/Web-App getrennt. iOS 26.6.1.
 - Julius hat **A2** gewählt (Web-App + Wohin-Abfrage), PLAN.md 4.7. Annahmen Überschreiben (insgesamt) und Streak (30 min/Tag) ohne Widerspruch übernommen.
 
+## Phase 1 – Design (27.11.)
+- [x] Vorschau unter `/` mit Steuerung (oben, Pille antippen): Design, Bildschirm Start/Timer, Modus, Zeitraffer 60×
+- [x] **Aurora:** Lichtflächen, Glas, dünne große Ziffern, leuchtender Ring zeigt Restzeit (wie iOS-Timer), runde Knöpfe
+- [x] **Instrument:** Punktraster, Haarlinien, Monospace-Messwerte, Skala mit 60 Strichen, die mit der Zeit aufleuchten, Zeiger
+- [x] **Ruhe:** Serifenschrift (New York), ein weiches Licht, Papierkorn, Satz statt Kennzahlen, dicker matter Ring füllt sich
+- [x] Modus-Paletten Fokus (kühl) / Morgen (warm) / Abend (gedimmt) mit 1,2 s Überblendung, reduzierte Bewegung respektiert
+- Belege: Build ok (JS 79 kB gzip). Playwright (393×852): alle 3 Richtungen Start→Timer, Uhr läuft (25:00→24:59),
+  Ablenkung zählt hoch, Pause friert Uhr ein, Zeitraffer erreicht „Geschafft“, keine Konsolenfehler.
+- Hinweis: In der Cloud-Vorschau fehlt die iPhone-Schrift New York; auf dem iPhone sieht Ruhe anders (besser) aus.
+
 ## Nächster konkreter Schritt
-- Phase 1: 3 Designrichtungen (Startscreen + Timer) als umschaltbare Vorschau unter `/` bauen.
+- Warten auf Julius: Wahl einer Designrichtung (gern mit Wünschen, z. B. „Instrument, aber mit dem Ring von Aurora“).
+- Danach Phase 2 (Kern) in der gewählten Richtung.
 
 ## Aufgaben für Julius
-- Nachtest erledigt, A2 entschieden. Aktuell nichts offen.
+- Designrichtung wählen: https://julius33176.github.io/fokus-app/ (Web-App neu starten, damit die neue Version lädt).
 
 ## Offene Fragen an Julius
 Siehe PLAN.md, Abschnitt 8 (Pages-Einstellungen, iOS-Version, iOS-Check, Überschreiben global/pro App,

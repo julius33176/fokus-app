@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react'
-import { copyFileSync, mkdirSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { createHash } from 'node:crypto'
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { relative, resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 
 // Pfade, die direkt aufgerufen werden können (z. B. aus Kurzbefehlen).
@@ -23,7 +24,47 @@ function deepLinkCopies(): Plugin {
   }
 }
 
+function listFiles(dir: string): string[] {
+  return readdirSync(dir).flatMap((name) => {
+    const full = resolve(dir, name)
+    return statSync(full).isDirectory() ? listFiles(full) : [full]
+  })
+}
+
+/** Schreibt dist/sw.js mit Liste aller Dateien und einer Version aus deren Inhalt (eigener SW statt Workbox). */
+function serviceWorker(base: string): Plugin {
+  return {
+    name: 'fokus-service-worker',
+    apply: 'build',
+    enforce: 'post',
+    closeBundle() {
+      const dist = resolve(import.meta.dirname, 'dist')
+      const files = listFiles(dist)
+        .map((f) => relative(dist, f).split('\\').join('/'))
+        .filter((f) => f !== 'sw.js' && f !== '404.html')
+        .sort()
+      const hash = createHash('sha256')
+      for (const f of files) hash.update(f).update(readFileSync(resolve(dist, f)))
+      const version = hash.digest('hex').slice(0, 12)
+      const template = readFileSync(resolve(import.meta.dirname, 'sw/sw-template.js'), 'utf8')
+      writeFileSync(
+        resolve(dist, 'sw.js'),
+        template
+          .replace('__VERSION__', version)
+          .replace('__BASE__', base)
+          .replace('__PRECACHE__', JSON.stringify(files)),
+      )
+    },
+  }
+}
+
+const pkg = JSON.parse(readFileSync(resolve(import.meta.dirname, 'package.json'), 'utf8')) as { version: string }
+const buildDate = new Date().toISOString().slice(0, 16).replace('T', ' ')
+
 export default defineConfig({
   base: '/fokus-app/',
-  plugins: [react(), deepLinkCopies()],
+  define: {
+    __APP_VERSION__: JSON.stringify(`${pkg.version} · ${buildDate}`),
+  },
+  plugins: [react(), deepLinkCopies(), serviceWorker('/fokus-app/')],
 })

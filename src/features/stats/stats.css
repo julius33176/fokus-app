@@ -1,0 +1,209 @@
+.stats-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stats-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+}
+
+.stats-tile-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.stats-tile-value {
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-tile-value small {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--text-2);
+}
+
+.stats-tile-sub {
+  font-size: 13px;
+  color: var(--text-3);
+}
+
+.stats-weeknav {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  margin: -6px -8px 10px;
+}
+
+.stats-weeknav .icon-btn {
+  font-size: 22px;
+}
+
+.stats-weeknav .icon-btn:disabled {
+  opacity: 0.3;
+}
+
+.stats-weeklabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 13px;
+}
+
+.stats-weeklabel .card-title {
+  font-size: 17px;
+}
+
+.stats-weeksum {
+  margin-bottom: 10px;
+}
+
+.stats-days {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.stats-days li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stats-day-min {
+  min-height: 16px;
+  font-size: 11px;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-day-col {
+  position: relative;
+  width: 100%;
+  max-width: 22px;
+  height: 80px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.stats-day-col span {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.35);
+  transform-origin: bottom;
+  transition: transform 600ms var(--ease-out);
+}
+
+.stats-days li.is-today .stats-day-col span {
+  background: linear-gradient(to top, var(--m-accent-2), var(--m-accent));
+}
+
+.stats-day-name {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.stats-days li.is-today .stats-day-name {
+  color: var(--m-ink);
+  font-weight: 600;
+}
+
+.stats-note {
+  margin: 8px 0 0;
+  font-size: 12px;
+  text-align: center;
+}
+
+.stats-empty {
+  margin: 10px 0 0;
+}
+
+.stats-subjects {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stats-subject-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.stats-subject-track {
+  display: block;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.stats-subject-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left;
+  transition: transform 600ms var(--ease-out);
+}
+
+.stats-session {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  min-height: 60px;
+  transition: transform 100ms ease-out;
+}
+
+.stats-session .subject-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.stats-session-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.stats-rating {
+  display: flex;
+  gap: 3px;
+}
+
+.stats-rating span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.stats-rating span.is-on {
+  background: var(--m-accent);
+}

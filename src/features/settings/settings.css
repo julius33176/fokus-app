@@ -1,0 +1,36 @@
+.settings-inline {
+  max-width: 55%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  text-align: right;
+}
+
+.settings-action {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  transition: transform 100ms ease-out;
+}
+
+.settings-action:last-child {
+  border-bottom: 0;
+}
+
+.settings-error {
+  margin: 0 4px;
+  color: var(--danger);
+  font-size: 15px;
+}
+
+.settings-foot {
+  margin: 0 4px;
+  font-size: 13px;
+  line-height: 1.4;
+}

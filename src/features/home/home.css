@@ -1,0 +1,156 @@
+.home {
+  padding-top: calc(var(--safe-top) + 20px);
+}
+
+.home-head {
+  padding: 0 4px;
+}
+
+.home-greeting {
+  margin: 4px 0 0;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.home-hero {
+  padding: 8px 4px 4px;
+}
+
+.home-label {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.home-big {
+  margin: 0;
+  font-size: 80px;
+  line-height: 0.95;
+  font-weight: 200;
+  letter-spacing: -0.045em;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-unit {
+  margin-left: 4px;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-2);
+}
+
+.home-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: var(--text-2);
+}
+
+.home-streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.home-streak.is-done {
+  color: var(--m-accent);
+}
+
+.home-weekbar {
+  margin-top: 12px;
+}
+
+.home-days {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.home-days li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.home-day-bar {
+  width: 6px;
+  height: 26px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.22);
+  transform-origin: bottom;
+  transition: transform 600ms var(--ease-out);
+}
+
+.home-days li.is-today .home-day-bar {
+  background: var(--m-accent);
+}
+
+.home-day-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.home-days li.is-today .home-day-name {
+  color: var(--m-ink);
+}
+
+.home-quick {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.home-free {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.home-running {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+}
+
+.home-running-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--m-accent);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--m-accent) 25%, transparent);
+}
+
+.home-running-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.home-empty p {
+  margin: 0;
+}

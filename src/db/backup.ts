@@ -10,9 +10,21 @@ export interface BackupFile {
   data: { [S in StoreName]: StoreMap[S][] } & { kv: { settings: Settings; meta: KvMap['meta'] | null } }
 }
 
+const ALL_STORES = [
+  'subjects',
+  'tasks',
+  'sessions',
+  'apps',
+  'gateEvents',
+  'routines',
+  'routineRuns',
+  'alternatives',
+  'kv',
+] as const
+
 export async function exportBackup(now = new Date()): Promise<BackupFile> {
   const db = await getDb()
-  const tx = db.transaction([...STORE_NAMES, 'kv'], 'readonly')
+  const tx = db.transaction(ALL_STORES, 'readonly')
   const entries = await Promise.all(STORE_NAMES.map(async (s) => [s, await tx.objectStore(s).getAll()] as const))
   const settings = ((await tx.objectStore('kv').get('settings')) as Settings | undefined) ?? DEFAULT_SETTINGS
   const meta = ((await tx.objectStore('kv').get('meta')) as KvMap['meta'] | undefined) ?? null
@@ -21,7 +33,7 @@ export async function exportBackup(now = new Date()): Promise<BackupFile> {
     app: 'fokus',
     schemaVersion: SCHEMA_VERSION,
     exportedAt: now.toISOString(),
-    data: { ...(Object.fromEntries(entries) as BackupFile['data']), kv: { settings, meta } },
+    data: { ...(Object.fromEntries(entries) as unknown as BackupFile['data']), kv: { settings, meta } },
   }
 }
 
@@ -68,7 +80,7 @@ export function parseBackup(text: string): ParseResult {
     schemaVersion: b.schemaVersion,
     exportedAt: typeof b.exportedAt === 'string' ? b.exportedAt : '',
     data: {
-      ...(Object.fromEntries(STORE_NAMES.map((s) => [s, data[s] ?? []])) as BackupFile['data']),
+      ...(Object.fromEntries(STORE_NAMES.map((s) => [s, data[s] ?? []])) as unknown as BackupFile['data']),
       kv: { settings: { ...DEFAULT_SETTINGS, ...(data.kv?.settings ?? {}) }, meta: data.kv?.meta ?? null },
     },
   }
@@ -89,7 +101,7 @@ export function parseBackup(text: string): ParseResult {
 /** Ersetzt alle Daten durch die Sicherung – in einer einzigen Transaktion (ganz oder gar nicht). */
 export async function importBackup(backup: BackupFile, now = Date.now()): Promise<void> {
   const db = await getDb()
-  const tx = db.transaction([...STORE_NAMES, 'kv'], 'readwrite')
+  const tx = db.transaction(ALL_STORES, 'readwrite')
   const ops: Promise<unknown>[] = []
   for (const s of STORE_NAMES) {
     const store = tx.objectStore(s)

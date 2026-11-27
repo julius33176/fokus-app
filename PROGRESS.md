@@ -1,7 +1,7 @@
 # PROGRESS
 
 **Aktuelle Phase:** 0 – Plan (abgeschlossen, wartet auf Julius)
-**Stand:** PLAN.md, Grundgerüst, iOS-Check-Seite und Deploy-Workflow sind gepusht.
+**Stand:** PLAN.md, Grundgerüst, iOS-Check-Seite und Deploy-Workflow sind gepusht. Pages ist live.
 
 ## Erledigt
 - [x] Repo geprüft (öffentlich, nur README), Recherche iOS-PWA-Grenzen
@@ -10,11 +10,13 @@
 - [x] Manifest + Icons (Installation als Web-App)
 - [x] iOS-Check-Seite `/check` (Speicher-Kennung, webapp://-Test, x-success-Test, Ergebnis kopieren)
 - [x] Workflow `.github/workflows/deploy.yml` (Build + Pages-Deploy bei Push auf `main` und Arbeitsbranch)
+- [x] GitHub Pages aktiviert (Julius: Source GitHub Actions, Environment `github-pages` ohne Branch-Beschränkung).
+  Deploy-Lauf 45913865193 (Versuch 2) erfolgreich.
 - Belege: `npm run build` ohne Fehler (JS 71 kB gzip). Playwright (iPhone 15): `/`, `/check/?via=webapp`
   ohne Konsolenfehler, Ankunft wird protokolliert, `/gate/?app=instagram` liefert HTTP 200.
 
 ## Nächster konkreter Schritt
-- Warten auf Julius: Pages aktivieren, iOS-Check machen, offene Fragen beantworten (PLAN.md, Abschnitt 8).
+- Warten auf Julius: iOS-Check machen, offene Fragen beantworten (PLAN.md, Abschnitt 8).
 - Danach Phase 1: 3 Designrichtungen für Startscreen und Timer als umschaltbare Vorschau.
 
 ## Offene Fragen an Julius
@@ -26,5 +28,4 @@ Tagesgrenze, Streak-Definition, Gate-Apps).
   Web-App? Rückfrage bei `shortcuts://`? `x-success` zurück in die Web-App?
 
 ## Bekannte Probleme
-- Deploy funktioniert erst, wenn GitHub Pages in den Repo-Einstellungen aktiviert ist (Source: GitHub Actions)
-  und der Arbeitsbranch im Environment `github-pages` erlaubt ist. Das kann nur Julius einstellen.
+- Die Live-Seite kann ich aus der Cloud-Umgebung nicht abrufen (github.io gesperrt). Ob sie lädt, sieht nur Julius.

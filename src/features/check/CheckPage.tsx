@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { routeUrl } from '../../router/router.ts'
+import { clearEvents, readEvents, type PageEvent } from './eventlog.ts'
 import './check.css'
 
 // iOS-Check: prüft die Plattform-Annahmen aus PLAN.md, Abschnitt 4.5/6.
@@ -77,6 +78,13 @@ export function CheckPage() {
   const [log, setLog] = useState<LogEntry[]>(() => readJson<LogEntry[]>(LOG_KEY, []))
   const [note, setNote] = useState(() => readJson<string>(NOTE_KEY, ''))
   const [copied, setCopied] = useState<'idle' | 'ok' | 'manual'>('idle')
+  const [events, setEvents] = useState<PageEvent[]>(readEvents)
+
+  useEffect(() => {
+    const refresh = () => setEvents(readEvents())
+    window.addEventListener('fokus-check-events', refresh)
+    return () => window.removeEventListener('fokus-check-events', refresh)
+  }, [])
 
   // Einmalig beim Laden lesen – die URL wird danach bereinigt.
   const [search] = useState(() => window.location.search.replace(/^\?/, ''))
@@ -123,6 +131,10 @@ export function CheckPage() {
     ...(log.length
       ? log.map((e) => `- ${fmt(e.t)} · ${e.params} · ${e.ctx === 'standalone' ? 'Web-App' : 'Safari'}`)
       : ['- keine']),
+    'Protokoll (neueste oben):',
+    ...(events.length
+      ? events.map((e) => `- ${fmt(e.t)} · ${e.type} · ${e.href}${e.extra ? ' · ' + e.extra : ''}`)
+      : ['- leer']),
     `Notiz: ${note || '–'}`,
     `UA: ${version.ua}`,
   ].join('\n')
@@ -175,6 +187,34 @@ export function CheckPage() {
             <strong className="ok">{arrivedVia}</strong>
           </Row>
         )}
+      </section>
+
+      <section className="check-card check-retest" aria-label="Nachtest">
+        <h2>Nachtest: Kommt die Adresse an?</h2>
+        <p>
+          Alles <b>in der Web-App</b>, nicht in Safari:
+        </p>
+        <ol className="check-steps">
+          <li>
+            Unten <b>„Protokoll leeren“</b> tippen.
+          </li>
+          <li>
+            <b>Warm:</b> Web-App offen lassen, zur Kurzbefehle-App wechseln, <b>Fokus Test A</b>{' '}
+            starten. In der Web-App danach nichts antippen.
+          </li>
+          <li>
+            <b>Kalt:</b> App-Umschalter öffnen (vom unteren Rand nach oben wischen und halten), die
+            Fokus-Web-App nach oben wegwischen. Dann <b>Fokus Test A</b> erneut starten. Falls die
+            Startseite kommt: auf „Zum iOS-Check“ tippen.
+          </li>
+          <li>
+            Einmal <b>„B starten · zurück per webapp://“</b> tippen.
+          </li>
+          <li>
+            <b>„Ergebnis kopieren“</b> und in den Chat einfügen. Dazu kurz schreiben, was du jeweils
+            gesehen hast (Startseite oder iOS-Check?).
+          </li>
+        </ol>
       </section>
 
       <Step n={1} title="Als Web-App installieren">
@@ -249,6 +289,35 @@ export function CheckPage() {
         </p>
         {copied === 'manual' && <textarea className="check-note mono" readOnly rows={10} value={report} />}
       </Step>
+
+      <section className="check-card" aria-label="Seitenprotokoll">
+        <h2>Protokoll</h2>
+        {events.length === 0 ? (
+          <p className="check-hint">Leer.</p>
+        ) : (
+          <ul className="check-log">
+            {events.map((e, i) => (
+              <li key={`${e.t}-${i}`}>
+                <span className="tabular">{fmt(e.t)}</span>
+                <b>{e.type}</b>
+                <span className="mono">{e.href}</span>
+                {e.extra && <span>{e.extra}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
+        <button
+          className="check-button secondary"
+          onClick={() => {
+            clearEvents()
+            setEvents([])
+            writeJson(LOG_KEY, [])
+            setLog([])
+          }}
+        >
+          Protokoll leeren
+        </button>
+      </section>
 
       <section className="check-card" aria-label="Protokoll">
         <h2>Ankünfte in diesem Kontext</h2>

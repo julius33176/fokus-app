@@ -192,3 +192,21 @@
   flex-wrap: wrap;
   color: var(--text-2);
 }
+
+.check-retest {
+  border-color: rgba(143, 184, 255, 0.45);
+  background: rgba(91, 124, 255, 0.12);
+}
+
+.check-steps {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--text-2);
+}
+
+.check-steps b {
+  color: var(--text);
+}

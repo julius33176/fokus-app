@@ -15,8 +15,14 @@
 - Belege: `npm run build` ohne Fehler (JS 71 kB gzip). Playwright (iPhone 15): `/`, `/check/?via=webapp`
   ohne Konsolenfehler, Ankunft wird protokolliert, `/gate/?app=instagram` liefert HTTP 200.
 
+## iOS-Check, Ergebnis 1 (27.11., Julius)
+- Web-App läuft standalone, Safari 26.6.1 (UA meldet iOS 18_7, iOS-UA ist eingefroren).
+- „Alles hat geklappt“, aber **keine Ankunft mit `?via=`/`?ret=` protokolliert** → Verdacht: `webapp://` und
+  `x-success` holen die Web-App nur nach vorne (oder öffnen die Startseite), ohne die übergebene Adresse zu laden.
+- Reaktion: Seitenprotokoll (Laden/Vordergrund/Adresse) in `/check` eingebaut, Nachtest warm/kalt angefragt.
+
 ## Nächster konkreter Schritt
-- Warten auf Julius: iOS-Check machen, offene Fragen beantworten (PLAN.md, Abschnitt 8).
+- Warten auf Julius: Nachtest im iOS-Check (warm/kalt), offene Fragen beantworten (PLAN.md, Abschnitt 8).
 - Danach Phase 1: 3 Designrichtungen für Startscreen und Timer als umschaltbare Vorschau.
 
 ## Offene Fragen an Julius

@@ -25,6 +25,13 @@
 - Warten auf Julius: Nachtest im iOS-Check (warm/kalt), offene Fragen beantworten (PLAN.md, Abschnitt 8).
 - Danach Phase 1: 3 Designrichtungen für Startscreen und Timer als umschaltbare Vorschau.
 
+## Aufgaben für Julius (Stand 27.11. nachts)
+1. Web-App wegwischen, neu öffnen, „Zum iOS-Check“ (neue Version mit blauem Kasten „Nachtest“).
+2. Nachtest laut blauem Kasten: Protokoll leeren → Test A warm → Test A kalt → B zurück per webapp:// → Ergebnis kopieren.
+3. Antworten: iOS-Version, Speicher-Kennungen verschieden?, Rückfrage bei Test B?, Überschreiben global/pro App,
+   Tagesgrenze, Streak, Gate-Apps.
+Erinnerung per Push am 27.11. um 09:00 ist geplant.
+
 ## Offene Fragen an Julius
 Siehe PLAN.md, Abschnitt 8 (Pages-Einstellungen, iOS-Version, iOS-Check, Überschreiben global/pro App,
 Tagesgrenze, Streak-Definition, Gate-Apps).

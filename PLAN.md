@@ -235,8 +235,9 @@ gegen deine iOS-Version (sie haben sich zwischen iOS-Versionen teils geändert).
    2. *Zeit zwischen Daten abrufen* (Get Time Between Dates): von Änderungsdatum bis *Aktuelles Datum*, in **Minuten**
    3. *Zahlen aus Eingabe abrufen* (Get Numbers from Input): aus Datei (Inhalt = erlaubte Minuten)
    4. *Wenn* Zeit *ist kleiner als* Zahl → *Diesen Kurzbefehl stoppen* (Stop This Shortcut)
-3. *URLs öffnen* (Open URLs): `webapp://julius33176.github.io/fokus-app/gate/?app=[Kurzbefehleingabe]`
-   (Rückfall: `https://…`, siehe 4.5)
+3. *URLs öffnen* (Open URLs): `webapp://julius33176.github.io/fokus-app/?app=[Kurzbefehleingabe]`
+   (iOS 26.6 ignoriert die Adresse, siehe 4.6. Der Parameter bleibt drin: Falls iOS ihn künftig übergibt,
+   überspringt Fokus die Wohin-Abfrage automatisch.)
 
 **Automation pro App** (Automation → App → Instagram → „Wird geöffnet“ → **Sofort ausführen**, „Bei Ausführung benachrichtigen“ aus):
 *Text* `instagram` → *Kurzbefehl ausführen* (Run Shortcut) „Fokus Gate“ mit Eingabe Text. Eine Automation je App.
@@ -258,7 +259,8 @@ Eingabe JSON `{"app":"instagram","min":10,"open":"instagram://"}`
 Instagram antippen
   └─ Automation „App wird geöffnet“ → K1 „Fokus Gate“ (instagram)
        ├─ Durchlass jünger als X min? → Ende, Instagram bleibt offen
-       └─ sonst → PWA öffnet /gate/?app=instagram
+       └─ sonst → Fokus kommt nach vorne → Blatt „Wohin willst du?“ → Tipp auf „Instagram“
+             (Entscheidung A2, siehe 4.6/4.7)
              Atempause (Countdown) · „Wofür öffnest du das?“ · heute 3/5 · Limit 5
              ├─ „Lieber nicht“  → Ereignis cancelled → 2-Minuten-Alternative vorschlagen
              ├─ unter Limit: „Trotzdem öffnen“ → Ereignis opened → K2 → Durchlass-Datei → Instagram
@@ -329,6 +331,18 @@ Entscheidung durch Julius zwischen **A2** und **B** steht aus:
 
 ---
 
+### 4.7 Wohin-Abfrage (Entscheidung A2)
+
+- **Wann:** beim Kaltstart und jedes Mal, wenn Fokus nach mindestens 3 s im Hintergrund wieder sichtbar wird.
+- **Inhalt:** Blatt „Wohin willst du?“ mit den Gate-Apps als große Knöpfe und *Weiter in Fokus*.
+  Läuft gerade eine Session, ist der Hauptknopf *Zurück zur Session (HM, noch 12 min)*.
+- **Unterdrückt:** wenn Fokus selbst kurz vorher einen Kurzbefehl gestartet hat (Fokus an/aus, Timer),
+  erkennbar an einem Merker, den Fokus vor dem Sprung zu `shortcuts://` setzt (gültig 2 min).
+  Ausnahme: nach K2 (Durchlass) wird nicht unterdrückt, denn danach öffnet sich ja die gewählte App.
+- **Mit `?app=` in der Adresse** (falls iOS das künftig übergibt): direkt ins Gate dieser App.
+
+---
+
 ## 5. Technische Grenzen von iOS-PWAs (ehrlich)
 
 | Thema | Geht | Geht nicht | Wie wir es lösen |
@@ -336,7 +350,7 @@ Entscheidung durch Julius zwischen **A2** und **B** steht aus:
 | Andere Apps sperren | – | PWA kann keine App erkennen/sperren; Screen-Time-API nur für native Apps | Weiche Schranke: Kurzbefehl-Automation + Gate. Harte Schranke: Bildschirmzeit-Limits mit Code der Vertrauensperson |
 | Umgehbarkeit | – | Automationen lassen sich in der Kurzbefehle-App jederzeit ausschalten; die Kurzbefehle-App selbst darf **nicht** per Bildschirmzeit gesperrt werden, sonst bricht das Gate | ehrlich benennen; die harte Grenze bleibt Bildschirmzeit |
 | App-Öffnung erkennen | Automation „Wird geöffnet“ feuert auch beim App-Wechsel | Automation feuert erst, wenn die App schon sichtbar ist (kurzes Aufblitzen) | Durchlass-Fenster verhindert Mehrfachzählung und Schleifen |
-| Web-App aus Kurzbefehl öffnen | vermutlich ab iOS 26 per `webapp://` | normale https-Links landen in Safari | iOS-Check, Plan A/B (4.5) |
+| Web-App aus Kurzbefehl öffnen | per `webapp://` (iOS 26.6 getestet) | Adresse/Parameter kommen nicht an; https-Links landen in Safari | Wohin-Abfrage (4.7) |
 | Speicher | IndexedDB, mehrere hundert MB | Safari und Web-App teilen keinen Speicher; Löschen der Web-App vom Home-Bildschirm löscht alle Daten | Export/Import, `storage.persist()`. Laut WebKit gilt die 7-Tage-Löschregel nicht für Home-Bildschirm-Web-Apps |
 | Benachrichtigungen | Web Push ab iOS 16.4 | braucht einen Push-Server (Backend) → ausgeschlossen; lokal geplante Mitteilungen gibt es im Web nicht | Timer-Ende: Kurzbefehl startet parallel einen iOS-Timer. Morgen/Abend: iOS-Automation „Tageszeit“ |
 | Timer im Hintergrund | – | JavaScript pausiert im Hintergrund | Zeitstempel-Rechnung (2.5) + iOS-Timer |
@@ -402,8 +416,7 @@ Mit Annahme (Julius kann widersprechen):
 7. Streak: „30 min“ → Ein Tag zählt bei **mindestens 30 min Fokuszeit am Tag (Summe)**, damit auch
    zwei 25-min-Pomodoros zählen.
 
-Offen:
-8. **Anbindung des Gates: A2 (Web-App + Wohin-Abfrage) oder B (Safari-Modus)?** Siehe 4.6.
+8. Anbindung des Gates: **A2 (Web-App + Wohin-Abfrage)**, entschieden 27.11. ✓ Details 4.7.
 
 ---
 

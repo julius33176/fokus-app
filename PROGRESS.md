@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Aktuelle Phase:** 0 – Plan (abgeschlossen, wartet auf Julius)
+**Aktuelle Phase:** 1 – Design (gestartet 27.11.)
 **Stand:** PLAN.md, Grundgerüst, iOS-Check-Seite und Deploy-Workflow sind gepusht. Pages ist live.
 
 ## Erledigt
@@ -25,14 +25,13 @@
 - warm: `webapp://` holt Web-App nach vorne, Adresse ignoriert. kalt: Start immer auf `/`.
 - `shortcuts://` ohne Rückfrage, Eingabe kommt an. `x-success=webapp://` springt zurück (ohne Adresse).
 - Speicher Safari/Web-App getrennt. iOS 26.6.1.
-- Folgerung und Optionen A2/B: PLAN.md 4.6. Entscheidung von Julius steht aus.
+- Julius hat **A2** gewählt (Web-App + Wohin-Abfrage), PLAN.md 4.7. Annahmen Überschreiben (insgesamt) und Streak (30 min/Tag) ohne Widerspruch übernommen.
 
 ## Nächster konkreter Schritt
-- Warten auf Julius: Entscheidung A2 oder B (PLAN.md 4.6/8), Annahmen zu Überschreiben und Streak bestätigen.
-- Danach Phase 1: 3 Designrichtungen für Startscreen und Timer als umschaltbare Vorschau.
+- Phase 1: 3 Designrichtungen (Startscreen + Timer) als umschaltbare Vorschau unter `/` bauen.
 
 ## Aufgaben für Julius
-- Nachtest erledigt (27.11. vormittags). Offen: Entscheidung A2 oder B, Annahmen bestätigen.
+- Nachtest erledigt, A2 entschieden. Aktuell nichts offen.
 
 ## Offene Fragen an Julius
 Siehe PLAN.md, Abschnitt 8 (Pages-Einstellungen, iOS-Version, iOS-Check, Überschreiben global/pro App,

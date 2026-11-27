@@ -1,6 +1,6 @@
 # PROGRESS
 
-**Aktuelle Phase:** 1 – Design (fertig, wartet auf Julius' Wahl)
+**Aktuelle Phase:** 2 – Kern (fertig, wartet auf Julius' Test und OK)
 **Stand:** PLAN.md, Grundgerüst, iOS-Check-Seite und Deploy-Workflow sind gepusht. Pages ist live.
 
 ## Erledigt
@@ -37,20 +37,40 @@
   Ablenkung zählt hoch, Pause friert Uhr ein, Zeitraffer erreicht „Geschafft“, keine Konsolenfehler.
 - Hinweis: In der Cloud-Vorschau fehlt die iPhone-Schrift New York; auf dem iPhone sieht Ruhe anders (besser) aus.
 
-## Nächster konkreter Schritt
-- Warten auf Julius: Wahl einer Designrichtung (gern mit Wünschen, z. B. „Instrument, aber mit dem Ring von Aurora“).
-- Danach Phase 2 (Kern) in der gewählten Richtung.
+## Phase 2 – Kern (27.11.)
+- [x] Design Aurora gewählt, DESIGN.md; Zusatzwunsch Tageszeit-Paletten + Begrüßung umgesetzt
+- [x] Datenschicht IndexedDB (idb, Schema v1, alle Stores), Einstellungen mit Standardwerten
+- [x] Domain: Timer-Automat, Tagesgrenze 04:00, Statistik, Serie ≥ 30 min/Tag, Tageszeit/Begrüßung
+- [x] App-Gerüst: Router, Tab-Leiste (Heute, Statistik, Fächer, Mehr), Himmel, Mini-Player
+- [x] Startbildschirm mit Schnellstart (Fach, Aufgabe, 25/5, 50/10, Frei mit Dauer)
+- [x] Timer: Ring, Pause, Ablenkung, Pomodoro-Pausen, „Pause vorbei“, Abbruch (speichern/verwerfen), Bewertung 1–5 + Notiz, Wake Lock
+- [x] Fächer + Aufgaben (anlegen, Farbe, archivieren, löschen, abhaken)
+- [x] Statistik-Grundgerüst: Serie, Gesamt, Woche mit Navigation, pro Fach, Ø Ablenkungen, Ø Konzentration, Session-Liste (antippen = bewerten)
+- [x] Einstellungen: Name, Wochenziel, Serien-Schwelle, Takt, Tagesbeginn, Bildschirm anlassen, Export (Teilen-Menü), Import mit Vorschau
+- [x] Eigener Service Worker: Offline-Start, Update-Hinweis „Neue Version · Neu laden“
+- Belege: `npm test` 21/21 grün. `npm run build` ok (JS 87 kB gzip). Playwright-Ende-zu-Ende mit simulierter Uhr:
+  Start → 10 min → Ablenkung → Pause (Uhr steht) → Ende → Bewertung → kurze Pause → „Pause vorbei“ → Runde 2 →
+  Mini-Player → Abbruch speichern → Statistik (2 Sessions) → Fach + Aufgaben → Export → Import → Neuladen (Daten da), 0 Fehler.
+  Offline-Test: Neuladen und Direktaufruf `/stats/` ohne Netz ok, Update-Hinweis und Wechsel auf neue Version ok.
+- Entscheidung: vite-plugin-pwa (Workbox) wieder entfernt, weil es 4 Sicherheitswarnungen in Build-Abhängigkeiten
+  mitbrachte; eigener SW (sw/sw-template.js) stattdessen. Phase-1-Vorschau entfernt.
 
-## Aufgaben für Julius
-- Designrichtung wählen: https://julius33176.github.io/fokus-app/ (Web-App neu starten, damit die neue Version lädt).
+## Nächster konkreter Schritt
+- Warten auf Julius: Test auf dem iPhone (siehe „Von Julius zu testen“), dann OK für Phase 3 (Gate und Limits).
 
 ## Offene Fragen an Julius
 Siehe PLAN.md, Abschnitt 8 (Pages-Einstellungen, iOS-Version, iOS-Check, Überschreiben global/pro App,
 Tagesgrenze, Streak-Definition, Gate-Apps).
 
-## Von Julius zu testen
-- iOS-Check (`https://julius33176.github.io/fokus-app/check/`): Speicher getrennt? `webapp://` öffnet
-  Web-App? Rückfrage bei `shortcuts://`? `x-success` zurück in die Web-App?
+## Von Julius zu testen (Phase 2)
+- Web-App einmal wegwischen und neu öffnen (neue Version). Begrüßung und Farben passend zur Uhrzeit?
+- Session starten, iPhone sperren, nach ein paar Minuten zurück: Zeit stimmt? Bildschirm bleibt während der Session an?
+- Ende einer Session, Bewertung, Pause, nächste Runde; Abbruch mit Speichern
+- Export über „Mehr → Sicherung exportieren“ → „In Dateien sichern“; Import aus der Dateien-App
+- Flugmodus an → App öffnen: läuft sie offline?
+- Optik: Notch/Dynamic Island, Tab-Leiste, Blätter, Tastatur bei Eingaben (kein Zoom)
 
 ## Bekannte Probleme
 - Die Live-Seite kann ich aus der Cloud-Umgebung nicht abrufen (github.io gesperrt). Ob sie lädt, sieht nur Julius.
+- Noch kein Signal am Session-Ende, wenn die App im Hintergrund ist (kommt in Phase 4 über Kurzbefehl + iOS-Timer, wie geplant).
+- Fokus „Lernen“ wird beim Start noch nicht aktiviert (Phase 4, Kurzbefehle).

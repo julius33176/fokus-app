@@ -53,7 +53,7 @@ export function HomeScreen() {
 
       <section className="home-hero" aria-label="Heute gelernt">
         <p className="home-label">Heute gelernt</p>
-        <p className="home-big">
+        <p className="home-big" aria-label={`${t.h > 0 ? `${t.h} Stunden ` : ''}${t.m} Minuten`}>
           {t.h > 0 && (
             <>
               {t.h}
